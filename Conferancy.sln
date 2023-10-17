@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conferancy", "Conferancy\Conferancy.csproj", "{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conferancy.Data", "Conferancy.Data\Conferancy.Data.csproj", "{016B500D-ADB3-4D8A-95A1-4675A087CEEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016B500D-ADB3-4D8A-95A1-4675A087CEEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016B500D-ADB3-4D8A-95A1-4675A087CEEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016B500D-ADB3-4D8A-95A1-4675A087CEEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016B500D-ADB3-4D8A-95A1-4675A087CEEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FFE4AE88-BC27-49CC-BFE5-0392DC8CA562}
+	EndGlobalSection
+EndGlobal

@@ -26,6 +26,12 @@ namespace Conference.Controllers
            
         }
 
+        //[HttpGet]
+        //public async Task <ActionResult> Login()
+        //{
+
+        //}
+
         [HttpGet]
         public async Task <ActionResult> Registration()
         {
@@ -44,14 +50,11 @@ namespace Conference.Controllers
                 model.Password = PasswordHelper.HashPassword(model.Password);
                
                 var user = Mapper.Map<User>(model);
-                _repository.AddUser(new User { });
+                _repository.AddUser(user);
                 await _repository.SaveChangesAsync();
             }
-            
-            
-
+                        
             var regions = await _repository.GetRegionsAsync();
-
             var viewModel = new RegistrationViewModel { Regions = regions };
 
             return View(viewModel);

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Conferancy
+namespace Conference
 {
     public class BundleConfig
     {

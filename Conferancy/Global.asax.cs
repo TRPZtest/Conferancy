@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Conference.Di;
+using FluentValidation.Attributes;
+using FluentValidation.Mvc;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +12,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Conferancy
+namespace Conference
 {
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -16,6 +22,15 @@ namespace Conferancy
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var fluentValidationModelValidatorProvider = new FluentValidationModelValidatorProvider(new AttributedValidatorFactory());
+            ModelValidatorProviders.Providers.Add(fluentValidationModelValidatorProvider);
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            fluentValidationModelValidatorProvider.AddImplicitRequiredValidator = false;
+
+            NinjectModule registrations = new NinjectRegistrations();
+            var kernel = new StandardKernel(registrations);
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
 }

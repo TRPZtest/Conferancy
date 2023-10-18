@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Conferancy.Models.ViewModels
+namespace Conference.Models.ViewModels
 {
     public interface RegistrationFormPostModel
     {

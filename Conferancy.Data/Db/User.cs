@@ -19,7 +19,7 @@ namespace Conference.Data.Db
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(200)]
         public string Password { get; set; }
 
         [Required]
@@ -29,7 +29,8 @@ namespace Conference.Data.Db
         [StringLength(15)]
         public string PhoneNumber { get; set; }
 
-        public int? RegionId { get; set; }
+        [Required]
+        public int RegionId { get; set; }
 
         public virtual Region Region { get; set; }
     }

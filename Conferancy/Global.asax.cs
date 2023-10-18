@@ -1,4 +1,5 @@
-﻿using Conference.Di;
+﻿using Conferancy.AutoMapper;
+using Conference.Di;
 using FluentValidation.Attributes;
 using FluentValidation.Mvc;
 using Ninject;
@@ -23,13 +24,17 @@ namespace Conference
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var fluentValidationModelValidatorProvider = new FluentValidationModelValidatorProvider(new AttributedValidatorFactory());
-            ModelValidatorProviders.Providers.Add(fluentValidationModelValidatorProvider);
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-            fluentValidationModelValidatorProvider.AddImplicitRequiredValidator = false;
+            //var fluentValidationModelValidatorProvider = new FluentValidationModelValidatorProvider(new AttributedValidatorFactory());
+            //ModelValidatorProviders.Providers.Add(fluentValidationModelValidatorProvider);
+            //DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            //fluentValidationModelValidatorProvider.AddImplicitRequiredValidator = false;
+
+
+            AutoMapper.Mapper.Initialize(config => config.AddProfile(new AppAutoMapperProfile()));
 
             NinjectModule registrations = new NinjectRegistrations();
             var kernel = new StandardKernel(registrations);
+            kernel.Unbind<ModelValidatorProvider>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }

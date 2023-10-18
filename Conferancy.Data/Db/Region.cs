@@ -18,6 +18,7 @@ namespace Conference.Data.Db
         public int Id { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

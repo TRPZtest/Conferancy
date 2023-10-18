@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Conference.Models.ViewModels;
+using AutoMapper;
+using Conferancy.Helpers;
 
 namespace Conference.Controllers
 {
@@ -21,6 +23,7 @@ namespace Conference.Controllers
         public ConferenceController(IConferanceRepository repository)
         {
             _repository = repository;
+           
         }
 
         [HttpGet]
@@ -34,9 +37,34 @@ namespace Conference.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Registration(User user)
+        public async Task<ActionResult> Registration(RegistrationViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                model.Password = PasswordHelper.HashPassword(model.Password);
+               
+                var user = Mapper.Map<User>(model);
+                _repository.AddUser(new User { });
+                await _repository.SaveChangesAsync();
+            }
+            
+            
+
+            var regions = await _repository.GetRegionsAsync();
+
+            var viewModel = new RegistrationViewModel { Regions = regions };
+
+            return View(viewModel);
+        }
+        
+        public async Task<ActionResult> IsEmailUnique(string email)
+        {
+            var existedUser = await _repository.GetUserByEmailAsync(email);
+
+            if (existedUser != null)
+                return Json("Email is already in use", JsonRequestBehavior.AllowGet);
+            else
+                return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

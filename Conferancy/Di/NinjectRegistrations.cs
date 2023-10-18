@@ -1,4 +1,6 @@
-﻿using Conference.Data;
+﻿using AutoMapper;
+using Conferancy.AutoMapper;
+using Conference.Data;
 using Conference.Data.Db;
 using Ninject.Modules;
 using System;
@@ -13,7 +15,7 @@ namespace Conference.Di
         public override void Load()
         {
             Bind<AppDbContext>().To<AppDbContext>();
-            Bind<IConferanceRepository>().To<ConferanceRepository>();
+            Bind<IConferanceRepository>().To<ConferanceRepository>();           
         }
     }
 }

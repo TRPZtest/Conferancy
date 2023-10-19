@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Conference.Data.Db;
 using Conference.Models.ViewModels;
+using Conferency.Data.Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;

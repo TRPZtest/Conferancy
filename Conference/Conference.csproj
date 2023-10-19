@@ -223,9 +223,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Conference\Registration.cshtml" />
     <Content Include="Views\Conference\Login.cshtml" />
     <Content Include="Views\Conference\UsersList.cshtml" />
+    <Content Include="Views\Conference\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,6 +242,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Conference.Data\Conference.Data.csproj">
+      <Project>{FCE5D6C2-1580-4BC6-A0B8-AF87B5A94505}</Project>
+      <Name>Conference.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

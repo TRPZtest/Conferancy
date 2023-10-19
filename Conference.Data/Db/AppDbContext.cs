@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace Conference.Data.Db
+namespace Conferency.Data.Db
 {
     public partial class AppDbContext : DbContext
     {
@@ -20,6 +20,11 @@ namespace Conference.Data.Db
             modelBuilder.Entity<Region>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Region>()
+                .HasMany(e => e.Users)
+                .WithRequired(e => e.Region)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.FirstName)

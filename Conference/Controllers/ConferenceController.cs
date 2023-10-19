@@ -1,6 +1,5 @@
 ﻿using Conference.Di;
 using Conference.Data;
-using Conference.Data.Db;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
@@ -14,6 +13,7 @@ using Conference.Models.ViewModels;
 using AutoMapper;
 using Conference.Helpers;
 using Conference.Auth;
+using Conferency.Data.Db;
 
 namespace Conference.Controllers
 {

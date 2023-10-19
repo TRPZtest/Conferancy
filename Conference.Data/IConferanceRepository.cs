@@ -1,4 +1,4 @@
-﻿using Conference.Data.Db;
+﻿using Conferency.Data.Db;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

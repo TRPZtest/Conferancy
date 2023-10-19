@@ -1,4 +1,4 @@
-namespace Conference.Data.Db
+namespace Conferency.Data.Db
 {
     using System;
     using System.Collections.Generic;
@@ -26,11 +26,15 @@ namespace Conference.Data.Db
         [StringLength(50)]
         public string Email { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime Birthday { get; set; }
+
         [StringLength(15)]
         public string PhoneNumber { get; set; }
 
-        [Required]
         public int RegionId { get; set; }
+
+        public int? Age { get; set; }
 
         public virtual Region Region { get; set; }
     }

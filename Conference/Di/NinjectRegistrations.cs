@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Conference.Auth;
 using Conference.Data;
-using Conference.Data.Db;
+using Conferency.Data.Db;
 using Microsoft.IdentityModel.Tokens;
 using Ninject.Modules;
 using System;

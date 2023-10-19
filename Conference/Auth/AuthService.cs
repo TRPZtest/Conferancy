@@ -1,4 +1,4 @@
-﻿using Conference.Data.Db;
+﻿using Conferency.Data.Db;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;

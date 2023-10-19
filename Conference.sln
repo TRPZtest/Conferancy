@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conference", "Conference\Conference.csproj", "{C742416F-7EF0-4F8D-B1E8-51C6E74380DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conferance.Data", "Conference.Data\Conferance.Data.csproj", "{FCE5D6C2-1580-4BC6-A0B8-AF87B5A94505}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conference.Data", "Conference.Data\Conference.Data.csproj", "{FCE5D6C2-1580-4BC6-A0B8-AF87B5A94505}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

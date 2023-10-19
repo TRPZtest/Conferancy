@@ -1,4 +1,4 @@
-﻿using Conference.Data.Db;
+﻿using Conferency.Data.Db;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +14,10 @@ namespace Conference.Models.ViewModels
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [Required]
+        public DateTime BirthDate { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

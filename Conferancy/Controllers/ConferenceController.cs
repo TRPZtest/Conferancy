@@ -13,17 +13,19 @@ using System.Web.Mvc;
 using Conference.Models.ViewModels;
 using AutoMapper;
 using Conferancy.Helpers;
+using Conferancy.Auth;
 
 namespace Conference.Controllers
 {
     public class ConferenceController : Controller
     {
         private readonly IConferanceRepository _repository;
+        private readonly AuthService _authService;
 
         public ConferenceController(IConferanceRepository repository)
         {
             _repository = repository;
-           
+            _authService = new AuthService();
         }
 
         //[HttpGet]
@@ -52,6 +54,14 @@ namespace Conference.Controllers
                 var user = Mapper.Map<User>(model);
                 _repository.AddUser(user);
                 await _repository.SaveChangesAsync();
+
+                var token = _authService.GenerateJwt(user);
+                var jwtCookie = new System.Web.HttpCookie("Jwt", token);
+                jwtCookie.Expires = DateTime.UtcNow.AddDays(3);
+
+                HttpContext.Response.Cookies.Add(jwtCookie);
+
+                return RedirectToAction("UsersList");
             }
                         
             var regions = await _repository.GetRegionsAsync();
@@ -68,6 +78,15 @@ namespace Conference.Controllers
                 return Json("Email is already in use", JsonRequestBehavior.AllowGet);
             else
                 return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [AuthAttribute]
+        public async Task<ActionResult> UsersList()
+        {
+            var users = await _repository.GetUsersAsync();
+
+
+            return Json(User);
         }
     }
 }

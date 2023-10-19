@@ -115,7 +115,9 @@ namespace Conference.Controllers
             var users = await _repository.GetUsersAsync();
             var currentUserId = HttpContext.GetUserId();
 
-            var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = users }; 
+            var usersView = AutoMapper.Mapper.Map<List<UserViewModel>>(users);
+
+            var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = usersView }; 
 
             return View(viewModel);
         }

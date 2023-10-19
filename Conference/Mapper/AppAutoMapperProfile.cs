@@ -13,7 +13,8 @@ namespace Conference.Mapper
         public AppAutoMapperProfile()
         {
             CreateMap<RegistrationViewModel, User>();
-            
+            CreateMap<User, UserViewModel>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Conference.Helpers;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,7 +23,17 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Registration", "Registration", "Conference")</li>               
+                    @{
+                    if (Context.GetUserId() == 0)
+                        {
+                            <li>@Html.ActionLink("Registration", "Registration", "Conference")</li>
+                            <li>@Html.ActionLink("Login", "Login", "Conference")</li>
+                        }
+                    else
+                        {
+                            <li>@Html.ActionLink("Logout", "logout", "Conference")</li>
+                        }
+                    }
                 </ul>
             </div>
         </div>

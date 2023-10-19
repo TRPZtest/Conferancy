@@ -21,7 +21,8 @@ namespace Conference.Models.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [System.Web.Mvc.Remote("IsEmailUnique", "Conference", "Email alrady in use")]
+        [Required]
+        [System.Web.Mvc.Remote("IsEmailUnique", "Conference", "Email already in use")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         [Required]

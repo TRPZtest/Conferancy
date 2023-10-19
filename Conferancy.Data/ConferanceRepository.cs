@@ -33,13 +33,14 @@ namespace Conference.Data
 
         public async Task<List<User>> GetUsersAsync(int page = 0, int pageSize = 0)
         {
-            var query = _context.Users.Skip(page * pageSize);
+            var query = _context.Users.
+                Include(x => x.Region).OrderBy(x => x.Id)
+                .Skip(page * pageSize);
 
             if (pageSize != 0)
                 query = query.Take(pageSize);
 
-            var users = await query.
-                Include(x => x.Region)
+            var users = await query             
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -57,6 +58,14 @@ namespace Conference.Data
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<User> GetUserAsync(string email, string password)
+        {
+            var user = await _context.Users.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+
+            return user;
         }
     }
 }

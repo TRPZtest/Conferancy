@@ -1,4 +1,5 @@
-﻿using Conference.Data;
+﻿using Conference.Helpers;
+using Conference.Data;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,15 +9,17 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 
-namespace Conferancy.Auth
+namespace Conference.Auth
 {
     public class AuthAttribute : FilterAttribute, IAuthenticationFilter
     {     
         private readonly AuthService _authService;
+        private readonly bool _redirectToLoginPage;
 
-        public AuthAttribute()
+        public AuthAttribute(bool redirectToLoginPage)
         {          
             _authService = new AuthService();
+            _redirectToLoginPage = redirectToLoginPage;
         }
 
         public void OnAuthentication(AuthenticationContext filterContext)
@@ -27,17 +30,26 @@ namespace Conferancy.Auth
             if (string.IsNullOrEmpty(token))
                 filterContext.Result = new HttpUnauthorizedResult();
 
-            var userId = _authService.ValidateJwt(token);           
+            var userId = _authService.ValidateJwt(token);
+
+            if (userId == 0)      
+                filterContext.Result = new HttpUnauthorizedResult();          
+            else
+                filterContext.HttpContext.AddUserId(userId);
+
         }
 
         public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)
         {
-            filterContext.Result = new RedirectToRouteResult(
-                new System.Web.Routing.RouteValueDictionary 
-                {
-                    { "controller", "Conference" }, 
-                    { "action", "Login" }
-                });
+            
+            var userId = filterContext.HttpContext.GetUserId();
+            if (userId == 0 || _redirectToLoginPage)
+                filterContext.Result = new RedirectToRouteResult(
+                    new System.Web.Routing.RouteValueDictionary 
+                    {
+                        { "controller", "Conference" }, 
+                        { "action", "Login" }
+                    });
         }
     }
 }

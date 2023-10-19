@@ -4,11 +4,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Conferancy.Models.ViewModels
+namespace Conference.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        public string Email { get; set; }        
+        [DataType(DataType.Password)]    
+        public string Password { get; set; }
+        [Display(Name = "Login email")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; }
+        public string ErrorMessage { get; set; }
     } 
+
+    public class LoginRequestModel
+    {
+       
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+    }
 }

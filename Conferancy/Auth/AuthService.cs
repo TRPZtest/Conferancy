@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Conferancy.Auth
+namespace Conference.Auth
 {
     public class AuthService
     {
@@ -58,23 +58,30 @@ namespace Conferancy.Auth
                 // валидация ключа безопасности
                 ValidateIssuerSigningKey = true,
             };
-
-            Microsoft.IdentityModel.Tokens.SecurityToken token = new JsonWebToken(jwt);
-            var result = handler.ValidateToken(jwt, options, out token);
-
-            if (token != null)
+                       
+            try
             {
-                var userIdClaim = result.Claims.FirstOrDefault(x => x.Type == "UserId"); 
-                
-                long.TryParse(userIdClaim.Value, out long id);
+                Microsoft.IdentityModel.Tokens.SecurityToken token = new JsonWebToken(jwt);
+                var result = handler.ValidateToken(jwt, options, out token);
 
-                if (id == 0)
-                    throw new Exception("User id parsing error");
+                if (token != null)
+                {
+                    var userIdClaim = result.Claims.FirstOrDefault(x => x.Type == "UserId");
 
-                return id;
+                    long.TryParse(userIdClaim.Value, out long id);
+
+                    if (id == 0)
+                        throw new Exception("User id parsing error");
+
+                    return id;                  
+                }
+
+                return 0;
             }
-
-            return 0;
+            catch
+            {
+                return 0;
+            }                   
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Conferancy.AutoMapper;
+﻿using Conference.Mapper;
 using Conference.Di;
 using FluentValidation.Attributes;
 using FluentValidation.Mvc;

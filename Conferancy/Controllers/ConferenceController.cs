@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Conference.Models.ViewModels;
 using AutoMapper;
-using Conferancy.Helpers;
-using Conferancy.Auth;
+using Conference.Helpers;
+using Conference.Auth;
 
 namespace Conference.Controllers
 {
@@ -28,11 +28,33 @@ namespace Conference.Controllers
             _authService = new AuthService();
         }
 
-        //[HttpGet]
-        //public async Task <ActionResult> Login()
-        //{
+        [HttpGet]
+        public ActionResult Login(LoginViewModel viewModel = null)
+        {            
+            return View(viewModel);
+        }
 
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginRequestModel request)
+        {
+            if (ModelState.IsValid)
+            {
+                var hashedPassword = PasswordHelper.HashPassword(request.Password);
+
+                var user = await _repository.GetUserAsync(request.Email, hashedPassword);
+
+                if (user == null)
+                    return View(new LoginViewModel { ErrorMessage = "Invalid email or password" });
+                else
+                {
+                    setAuthCoockie(user);
+                        
+                    return RedirectToAction("UsersList");
+                }
+            }
+            else
+                return View("Error");
+        }
 
         [HttpGet]
         public async Task <ActionResult> Registration()
@@ -51,15 +73,11 @@ namespace Conference.Controllers
             {
                 model.Password = PasswordHelper.HashPassword(model.Password);
                
-                var user = Mapper.Map<User>(model);
+                var user = AutoMapper.Mapper.Map<User>(model);
                 _repository.AddUser(user);
                 await _repository.SaveChangesAsync();
 
-                var token = _authService.GenerateJwt(user);
-                var jwtCookie = new System.Web.HttpCookie("Jwt", token);
-                jwtCookie.Expires = DateTime.UtcNow.AddDays(3);
-
-                HttpContext.Response.Cookies.Add(jwtCookie);
+                setAuthCoockie(user);
 
                 return RedirectToAction("UsersList");
             }
@@ -68,6 +86,17 @@ namespace Conference.Controllers
             var viewModel = new RegistrationViewModel { Regions = regions };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Logout()
+        {
+            var jwt = HttpContext.Response.Cookies.Get("Jwt");
+
+            jwt.Expires = DateTime.Now;
+
+            return RedirectToAction("", ""); //Home Index
         }
         
         public async Task<ActionResult> IsEmailUnique(string email)
@@ -79,14 +108,25 @@ namespace Conference.Controllers
             else
                 return Json(true, JsonRequestBehavior.AllowGet);
         }
-
-        [AuthAttribute]
+       
+        [AllowAnonymous]
+        [AuthAttribute(redirectToLoginPage: false)]
         public async Task<ActionResult> UsersList()
         {
             var users = await _repository.GetUsersAsync();
 
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
 
-            return Json(User);
+        private void setAuthCoockie(User user)
+        {
+            var token = _authService.GenerateJwt(user);
+            var jwtCookie = new System.Web.HttpCookie("Jwt", token)
+            {
+                Expires = DateTime.UtcNow.AddDays(3)
+            };
+
+            HttpContext.Response.Cookies.Add(jwtCookie);
         }
     }
 }

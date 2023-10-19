@@ -175,13 +175,14 @@
     <Compile Include="Auth\AuthAttribute.cs" />
     <Compile Include="Auth\AuthOptions.cs" />
     <Compile Include="Auth\AuthService.cs" />
-    <Compile Include="AutoMapper\AppAutoMapperProfile.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Mapper\AppAutoMapperProfile.cs" />
     <Compile Include="Controllers\ConferenceController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Di\NinjectRegistrations.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HttpContextHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\ValidationMessenges.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
@@ -221,10 +222,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Conference\Registration.cshtml" />
+    <Content Include="Views\Conference\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

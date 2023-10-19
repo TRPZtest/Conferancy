@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Conferancy.Auth;
-using Conferancy.AutoMapper;
+using Conference.Auth;
 using Conference.Data;
 using Conference.Data.Db;
 using Microsoft.IdentityModel.Tokens;
@@ -18,27 +17,7 @@ namespace Conference.Di
         public override void Load()
         {
             Bind<AppDbContext>().To<AppDbContext>().InScope(ctx => ctx.Request);
-            Bind<IConferanceRepository>().To<ConferanceRepository>().InScope(ctx => ctx.Request);
-
-            var jwtValidationParameters = new TokenValidationParameters
-            {
-                // укзывает, будет ли валидироваться издатель при валидации токена
-                ValidateIssuer = true,
-                // строка, представляющая издателя
-                ValidIssuer = AuthOptions.ISSUER,
-
-                // будет ли валидироваться потребитель токена
-                ValidateAudience = true,
-                // установка потребителя токена
-                ValidAudience = AuthOptions.AUDIENCE,
-                // будет ли валидироваться время существования
-                ValidateLifetime = true,
-
-                // установка ключа безопасности
-                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                // валидация ключа безопасности
-                ValidateIssuerSigningKey = true,
-            };  
+            Bind<IConferanceRepository>().To<ConferanceRepository>().InScope(ctx => ctx.Request);           
         }
     }
 }

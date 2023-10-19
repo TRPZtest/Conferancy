@@ -88,8 +88,7 @@ namespace Conference.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost]       
         public ActionResult Logout()
         {
             var jwt = HttpContext.Response.Cookies.Get("Jwt");
@@ -114,8 +113,11 @@ namespace Conference.Controllers
         public async Task<ActionResult> UsersList()
         {
             var users = await _repository.GetUsersAsync();
+            var currentUserId = HttpContext.GetUserId();
 
-            return Json(users, JsonRequestBehavior.AllowGet);
+            var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = users }; 
+
+            return View(viewModel);
         }
 
         private void setAuthCoockie(User user)

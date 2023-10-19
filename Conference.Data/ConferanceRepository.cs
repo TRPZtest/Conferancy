@@ -1,8 +1,11 @@
 ﻿using Conferency.Data.Db;
+using System.Linq.Dynamic.Core;
+using Conferency.Data.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,24 +90,25 @@ namespace Conference.Data
             return property;
         }
 
-        public async Task<List<UsersView>> GetSortedUsersViewAsync(string property, bool isDiscending = false)
-        {            
-            if (string.IsNullOrEmpty(property))      
+        
+        public async Task<List<UsersView>> GetUsersViewAsync(string orderByProperty = "", bool isDiscending = false)
+        {
+            if (string.IsNullOrEmpty(orderByProperty))
+                return await _context.UsersViews.ToListAsync();
+            if (isDiscending)
                 return await _context.UsersViews
-                    .AsNoTracking()
-                    .ToListAsync();            
-            if(isDiscending)            
+                    .OrderByDescendingDynamic(x => $"x.{orderByProperty}")
+                    .ToListAsync();
+            else 
                 return await _context.UsersViews
-                    .OrderByDescending(x => _context.Entry<UsersView>(x)
-                    .Property(property))
-                    .AsNoTracking()
-                    .ToListAsync();          
-            else
-                return await _context.UsersViews
-                    .OrderBy(x => _context.Entry<UsersView>(x)
-                    .Property(property))
-                    .AsNoTracking()
-                    .ToListAsync();           
+                .OrderByDynamic(x => $"x.{orderByProperty}")
+                .ToListAsync();
+
+        }
+
+        public Task<List<UsersView>> GetSortedUsersViewAsync(string orderByProperty = "", bool isDiscending = false)
+        {
+            throw new NotImplementedException();
         }
     }
 }

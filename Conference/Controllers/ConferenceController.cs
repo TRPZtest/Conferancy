@@ -14,7 +14,6 @@ using AutoMapper;
 using Conference.Helpers;
 using Conference.Auth;
 using Conferency.Data.Db;
-using Conferancy.Models.ViewModels;
 
 namespace Conference.Controllers
 {
@@ -30,7 +29,7 @@ namespace Conference.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(LoginViewModel viewModel = null)
+        public ActionResult Login(LoginViewModel viewModel)
         {            
             return View(viewModel);
         }
@@ -110,9 +109,9 @@ namespace Conference.Controllers
         }
            
         [AuthAttribute(redirectToLoginPage: false)]
-        public async Task<ActionResult> UsersList(UsersListRequestModel request)
+        public async Task<ActionResult> UsersList()
         {
-            var users = await _repository.GetSortedUsersViewAsync(request?.SortingProperty, request.IsDescending);
+            var users = await _repository.GetUsersViewAsync();
             var currentUserId = HttpContext.GetUserId();
 
             var sortingProperties = await _repository.GetSortingPropertiesAsync();
@@ -120,6 +119,22 @@ namespace Conference.Controllers
             var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = users, SortingProperties = sortingProperties }; 
 
             return View(viewModel);
+        }
+
+        [AuthAttribute(redirectToLoginPage: false)]
+        public async Task<ActionResult> SortedUsers(long propertyId)
+        {         
+            if (ModelState.IsValid)
+            {
+                var currentUserId = HttpContext.GetUserId();            
+
+                var property = await _repository.GetSortingPropertyAsync(propertyId);
+
+                var users = await _repository.GetUsersViewAsync(property.SortingColumn.ColumnName, property.IsDescending);
+               
+                return PartialView("UsersListPartial", new UsersListViewModel { Users = users, CurrentUserId = currentUserId });
+            }
+            else return View("Error");
         }
 
         private void setAuthCoockie(User user)

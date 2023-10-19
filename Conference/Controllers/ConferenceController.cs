@@ -14,6 +14,7 @@ using AutoMapper;
 using Conference.Helpers;
 using Conference.Auth;
 using Conferency.Data.Db;
+using Conferancy.Models.ViewModels;
 
 namespace Conference.Controllers
 {
@@ -107,17 +108,16 @@ namespace Conference.Controllers
             else
                 return Json(true, JsonRequestBehavior.AllowGet);
         }
-       
-        [AllowAnonymous]
+           
         [AuthAttribute(redirectToLoginPage: false)]
-        public async Task<ActionResult> UsersList()
+        public async Task<ActionResult> UsersList(UsersListRequestModel request)
         {
-            var users = await _repository.GetUsersAsync();
+            var users = await _repository.GetSortedUsersViewAsync(request?.SortingProperty, request.IsDescending);
             var currentUserId = HttpContext.GetUserId();
 
-            var usersView = AutoMapper.Mapper.Map<List<UserViewModel>>(users);
+            var sortingProperties = await _repository.GetSortingPropertiesAsync();
 
-            var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = usersView }; 
+            var viewModel = new UsersListViewModel { CurrentUserId = currentUserId, Users = users, SortingProperties = sortingProperties }; 
 
             return View(viewModel);
         }

@@ -53,6 +53,7 @@
     <Compile Include="ConferanceRepository.cs" />
     <Compile Include="Db\AppDbContext.cs" />
     <Compile Include="Db\Region.cs" />
+    <Compile Include="Db\SortingColumn.cs" />
     <Compile Include="Db\SortingProperty.cs" />
     <Compile Include="Db\User.cs" />
     <Compile Include="Db\UsersView.cs" />

@@ -80,27 +80,31 @@ namespace Conference.Data
         public async Task<SortingProperty> GetSortingPropertyAsync(long id)
         {
             var property = await _context.SortingProperties
+                .Include(x => x.SortingColumn)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return property;
         }
 
-        public async Task<List<User>> GetSortedUsersAsync(bool isDiscending = false, params string[] properties)
-        {
-            var usersQuery = _context.Users.AsQueryable();
-
-            foreach (var property in properties)
-            {
-                usersQuery = usersQuery.OrderBy(x => _context.Entry<User>(x).Property(property));
-            }
-
-            var users = await usersQuery
-                .Include(x => x.Region)
-                .AsNoTracking()
-                .ToListAsync();
-
-            return users;
+        public async Task<List<UsersView>> GetSortedUsersViewAsync(string property, bool isDiscending = false)
+        {            
+            if (string.IsNullOrEmpty(property))      
+                return await _context.UsersViews
+                    .AsNoTracking()
+                    .ToListAsync();            
+            if(isDiscending)            
+                return await _context.UsersViews
+                    .OrderByDescending(x => _context.Entry<UsersView>(x)
+                    .Property(property))
+                    .AsNoTracking()
+                    .ToListAsync();          
+            else
+                return await _context.UsersViews
+                    .OrderBy(x => _context.Entry<UsersView>(x)
+                    .Property(property))
+                    .AsNoTracking()
+                    .ToListAsync();           
         }
     }
 }

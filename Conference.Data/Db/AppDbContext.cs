@@ -13,6 +13,7 @@ namespace Conferency.Data.Db
         }
 
         public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<SortingColumn> SortingColumns { get; set; }
         public virtual DbSet<SortingProperty> SortingProperties { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UsersView> UsersViews { get; set; }
@@ -26,6 +27,15 @@ namespace Conferency.Data.Db
             modelBuilder.Entity<Region>()
                 .HasMany(e => e.Users)
                 .WithRequired(e => e.Region)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SortingColumn>()
+                .Property(e => e.ColumnName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SortingColumn>()
+                .HasMany(e => e.SortingProperties)
+                .WithRequired(e => e.SortingColumn)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SortingProperty>()
@@ -57,7 +67,7 @@ namespace Conferency.Data.Db
                 .IsUnicode(false);
 
             modelBuilder.Entity<UsersView>()
-                .Property(e => e.Name)
+                .Property(e => e.RegionName)
                 .IsUnicode(false);
 
             modelBuilder.Entity<UsersView>()
@@ -66,7 +76,7 @@ namespace Conferency.Data.Db
 
             modelBuilder.Entity<UsersView>()
                 .Property(e => e.PhoneNumber)
-                .IsUnicode(false);          
+                .IsUnicode(false);
         }
     }
 }

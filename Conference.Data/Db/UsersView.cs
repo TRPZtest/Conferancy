@@ -22,7 +22,7 @@ namespace Conferency.Data.Db
         public int? Age { get; set; }
 
         [StringLength(50)]
-        public string Name { get; set; }
+        public string RegionName { get; set; }
 
         [Key]
         [Column(Order = 2)]

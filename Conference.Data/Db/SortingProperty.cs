@@ -15,5 +15,9 @@ namespace Conferency.Data.Db
         public string DisplayName { get; set; }
 
         public bool IsDescending { get; set; }
+
+        public long SortingColumnId { get; set; }
+
+        public virtual SortingColumn SortingColumn { get; set; }
     }
 }

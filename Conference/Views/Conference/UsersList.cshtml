@@ -6,7 +6,12 @@
 }
 
 <h2>Conference participants </h2>
-
+<div>
+    @Html.LabelFor(model => model.SortingProperties, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-3">
+        @Html.DropDownListFor(model => model.SortingProperties, new SelectList(Model.SortingProperties.ToDictionary(x => x.Id, x => x.DisplayName), "Key", "Value"), "--Select--", new { htmlAttributes = new { @class = "form-control" } })   
+    </div>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -16,38 +21,44 @@
             @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Birthday)
+            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Age)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Users.FirstOrDefault().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RegionId)
+            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RegionName)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model.Users) {
-    
-    var isCurrentUSer = item.Id == Model.CurrentUserId;
-  
-<tr class="@(isCurrentUSer ? "bg-success" : "")">
-    <td>
-        @Html.DisplayFor(modelItem => item.FullName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Birthday)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.PhoneNumber)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.RegionId)
-    </td>
-</tr>
-}
+    @foreach (var item in Model.Users)
+    {
+
+        var isCurrentUSer = item.Id == Model.CurrentUserId;
+
+        <tr class="@(isCurrentUSer ? "bg-success" : "")">
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionName)
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+@section Scripts {
+    @Scripts.Render("~/Content/UsersList.Js")
+}

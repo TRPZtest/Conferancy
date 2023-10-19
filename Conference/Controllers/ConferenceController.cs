@@ -69,7 +69,7 @@ namespace Conference.Controllers
         [HttpPost]
         public async Task<ActionResult> Registration(RegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+                if (ModelState.IsValid)
             {
                 model.Password = PasswordHelper.HashPassword(model.Password);
                

@@ -17,7 +17,7 @@ namespace Conference.Models.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         [Required]
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDay { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

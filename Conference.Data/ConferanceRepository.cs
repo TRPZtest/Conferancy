@@ -40,7 +40,7 @@ namespace Conference.Data
             if (pageSize != 0)
                 query = query.Take(pageSize);
 
-            var users = await query             
+            var users = await query
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -66,6 +66,41 @@ namespace Conference.Data
                 .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
 
             return user;
+        }
+
+        public async Task<List<SortingProperty>> GetSortingPropertiesAsync()
+        {
+            var properties = await _context.SortingProperties
+                .AsNoTracking()
+                .ToListAsync();
+
+            return properties;
+        }
+
+        public async Task<SortingProperty> GetSortingPropertyAsync(long id)
+        {
+            var property = await _context.SortingProperties
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return property;
+        }
+
+        public async Task<List<User>> GetSortedUsersAsync(bool isDiscending = false, params string[] properties)
+        {
+            var usersQuery = _context.Users.AsQueryable();
+
+            foreach (var property in properties)
+            {
+                usersQuery = usersQuery.OrderBy(x => _context.Entry<User>(x).Property(property));
+            }
+
+            var users = await usersQuery
+                .Include(x => x.Region)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return users;
         }
     }
 }

@@ -8,8 +8,11 @@ namespace Conference.Data
     {
         void AddUser(User user);
         Task<List<Region>> GetRegionsAsync();
-        Task<User> GetUserByEmailAsync(string email);
+        Task<List<User>> GetSortedUsersAsync(bool isDiscending = false, params string[] properties);
+        Task<List<SortingProperty>> GetSortingPropertiesAsync();
+        Task<SortingProperty> GetSortingPropertyAsync(long id);
         Task<User> GetUserAsync(string email, string password);
+        Task<User> GetUserByEmailAsync(string email);
         Task<List<User>> GetUsersAsync(int page = 0, int pageSize = 0);
         Task SaveChangesAsync();
     }

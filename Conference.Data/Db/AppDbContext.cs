@@ -8,12 +8,14 @@ namespace Conferency.Data.Db
     public partial class AppDbContext : DbContext
     {
         public AppDbContext()
-            : base("name=DbModel")
+            : base("name=AppDbContext")
         {
         }
 
         public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<SortingProperty> SortingProperties { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UsersView> UsersViews { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -25,6 +27,10 @@ namespace Conferency.Data.Db
                 .HasMany(e => e.Users)
                 .WithRequired(e => e.Region)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SortingProperty>()
+                .Property(e => e.DisplayName)
+                .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.FirstName)
@@ -45,6 +51,22 @@ namespace Conferency.Data.Db
             modelBuilder.Entity<User>()
                 .Property(e => e.PhoneNumber)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<UsersView>()
+                .Property(e => e.FullName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UsersView>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UsersView>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UsersView>()
+                .Property(e => e.PhoneNumber)
+                .IsUnicode(false);          
         }
     }
 }

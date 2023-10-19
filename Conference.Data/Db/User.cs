@@ -34,8 +34,6 @@ namespace Conferency.Data.Db
 
         public int RegionId { get; set; }
 
-        public int? Age { get; set; }
-
         public virtual Region Region { get; set; }
     }
 }

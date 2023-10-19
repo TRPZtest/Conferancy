@@ -27,12 +27,12 @@ namespace Conference.Auth
 
             var token = filterContext.HttpContext.Request.Cookies.Get("Jwt")?.Value;
             
-            if (string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token) && _redirectToLoginPage)
                 filterContext.Result = new HttpUnauthorizedResult();
 
             var userId = _authService.ValidateJwt(token);
 
-            if (userId == 0)      
+            if (userId == 0 && _redirectToLoginPage)      
                 filterContext.Result = new HttpUnauthorizedResult();          
             else
                 filterContext.HttpContext.AddUserId(userId);
@@ -43,7 +43,7 @@ namespace Conference.Auth
         {
             
             var userId = filterContext.HttpContext.GetUserId();
-            if (userId == 0 || _redirectToLoginPage)
+            if (userId == 0 && _redirectToLoginPage)
                 filterContext.Result = new RedirectToRouteResult(
                     new System.Web.Routing.RouteValueDictionary 
                     {

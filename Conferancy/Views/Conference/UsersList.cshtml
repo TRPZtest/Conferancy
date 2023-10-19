@@ -32,7 +32,10 @@
     </tr>
 
 @foreach (var item in Model.Users) {
-    <tr class="table-primary">
+    
+    var isCurrentUSer = item.Id == Model.CurrentUserId;
+  
+    <tr class="@(isCurrentUSer ? "bg-success" : "")">
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
         </td>

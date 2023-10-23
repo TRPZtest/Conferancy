@@ -38,7 +38,7 @@ AS
 SELECT  
 	u.Id,
 	CONCAT(u.FirstName, ' ', u.LastName) AS FullName,
-	YEAR(u.Birthday) AS Age,
+	datediff(year,[Birthday], getdate()) AS Age,
 	r.Name as RegionName,
 	u.Email,
 	u.PhoneNumber

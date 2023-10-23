@@ -19,95 +19,13 @@ namespace Conference.Controllers
 {
     public class ConferenceController : Controller
     {
-        private readonly IConferanceRepository _repository;
-        private readonly AuthService _authService;
+        private readonly IConferanceRepository _repository;   
 
         public ConferenceController(IConferanceRepository repository)
         {
-            _repository = repository;
-            _authService = new AuthService();
+            _repository = repository;            
         }
-
-        [HttpGet]
-        public ActionResult Login(LoginViewModel viewModel)
-        {            
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Login(LoginRequestModel request)
-        {
-            if (ModelState.IsValid)
-            {
-                var hashedPassword = PasswordHelper.HashPassword(request.Password);
-
-                var user = await _repository.GetUserAsync(request.Email, hashedPassword);
-
-                if (user == null)
-                    return View(new LoginViewModel { ErrorMessage = "Invalid email or password" });
-                else
-                {
-                    setAuthCoockie(user);
-                        
-                    return RedirectToAction("UsersList");
-                }
-            }
-            else
-                return View("Error");
-        }
-
-        [HttpGet]
-        public async Task <ActionResult> Registration()
-        {
-            var regions = await _repository.GetRegionsAsync();
-
-            var viewModel = new RegistrationViewModel { Regions = regions };
-
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Registration(RegistrationViewModel model)
-        {
-                if (ModelState.IsValid)
-            {
-                model.Password = PasswordHelper.HashPassword(model.Password);
-               
-                var user = AutoMapper.Mapper.Map<User>(model);
-                _repository.AddUser(user);
-                await _repository.SaveChangesAsync();
-
-                setAuthCoockie(user);
-
-                return RedirectToAction("UsersList");
-            }
-                        
-            var regions = await _repository.GetRegionsAsync();
-            var viewModel = new RegistrationViewModel { Regions = regions };
-
-            return View(viewModel);
-        }
-
-        [HttpPost]       
-        public ActionResult Logout()
-        {
-            var jwt = HttpContext.Response.Cookies.Get("Jwt");
-
-            jwt.Expires = DateTime.Now;
-
-            return RedirectToAction("", ""); //Home Index
-        }
-        
-        public async Task<ActionResult> IsEmailUnique(string email)
-        {
-            var existedUser = await _repository.GetUserByEmailAsync(email);
-
-            if (existedUser != null)
-                return Json("Email is already in use", JsonRequestBehavior.AllowGet);
-            else
-                return Json(true, JsonRequestBehavior.AllowGet);
-        }
-           
+                                                    
         [AuthAttribute(redirectToLoginPage: false)]
         public async Task<ActionResult> UsersList()
         {
@@ -135,17 +53,6 @@ namespace Conference.Controllers
                 return PartialView("UsersListPartial", new UsersListViewModel { Users = users, CurrentUserId = currentUserId });
             }
             else return View("Error");
-        }
-
-        private void setAuthCoockie(User user)
-        {
-            var token = _authService.GenerateJwt(user);
-            var jwtCookie = new System.Web.HttpCookie("Jwt", token)
-            {
-                Expires = DateTime.UtcNow.AddDays(3)
-            };
-
-            HttpContext.Response.Cookies.Add(jwtCookie);
-        }
+        }       
     }
 }

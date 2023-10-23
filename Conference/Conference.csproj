@@ -175,6 +175,7 @@
     <Compile Include="Auth\AuthAttribute.cs" />
     <Compile Include="Auth\AuthOptions.cs" />
     <Compile Include="Auth\AuthService.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Mapper\AppAutoMapperProfile.cs" />
     <Compile Include="Controllers\ConferenceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -224,9 +225,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Conference\Login.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Conference\UsersList.cshtml" />
-    <Content Include="Views\Conference\Registration.cshtml" />
+    <Content Include="Views\Auth\Registration.cshtml" />
     <Content Include="Views\Conference\UsersListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

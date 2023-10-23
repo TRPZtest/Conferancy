@@ -25,13 +25,13 @@
                     @{
                         if (Context.GetUserId() == 0)
                         {
-                            <li>@Html.ActionLink("Registration", "Registration", "Conference")</li>
-                            <li>@Html.ActionLink("Login", "Login", "Conference")</li>
+                            <li>@Html.ActionLink("Registration", "Registration", "Auth")</li>
+                            <li>@Html.ActionLink("Login", "Login", "Auth")</li>
                         }
                         else
                         {
                             <li class="navbar-brand">
-                                @using (Html.BeginForm("Logout", "Conference", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right", }))
+                                @using (Html.BeginForm("Logout", "Auth", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right", }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <a class="navbar-link" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>

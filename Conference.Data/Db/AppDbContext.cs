@@ -10,6 +10,7 @@ namespace Conferency.Data.Db
         public AppDbContext()
             : base("name=AppDbContext")
         {
+            //Database.SetInitializer(new AppDbContextInitializer());
         }
 
         public virtual DbSet<Region> Regions { get; set; }
